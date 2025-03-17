@@ -9,7 +9,10 @@ function FetchOvertimeList() {
     };
     console.log(data);
     var dtProperties = {
-
+        responsive: true, // Enable responsive behavior
+        scrollX: true,    // Enable horizontal scrolling if needed
+        processing: true,
+        serverSide: true,
         ajax: {
             url: '/OverTime/GetOverTimeList',
             type: "POST",
@@ -170,9 +173,8 @@ function FetchOvertimeList() {
 function OverTimeDOM() {
     $("#otsumbit").on("submit", function (event) {
         event.preventDefault();
-
         //$.ajax({
-        //    url: '/Salary/SaveSalary',
+        //    url: '/Overtime/SaveSalary',
         //    data: data,
         //    type: "POST",
         //    dataType: "json"
