@@ -4,16 +4,19 @@ function FetchLeaveRequestList() {
     if ($.fn.DataTable.isDataTable(tableId)) {
         $(tableId).DataTable().clear().destroy();
     }
+    var sdate = document.getElementById('lr-datefrom').value;
+    var edate = document.getElementById('lr-dateto').value;
     let data = {
-        StartDate: null,
-        EndDate: null
+        StartDate: sdate,
+        EndDate: edate,
+        EmployeeNo: EmployeeID
     };
     //console.log(data);
     var dtProperties = {
-        responsive: true, // Enable responsive behavior
-        scrollX: true,    // Enable horizontal scrolling if needed
-        processing: true,
-        serverSide: true,
+        //responsive: true, // Enable responsive behavior
+        //scrollX: true,    // Enable horizontal scrolling if needed
+        //processing: true,
+        //serverSide: true,
         ajax: {
             url: '/Leave/GetLeaveRequestList',
             type: "POST",
@@ -21,7 +24,7 @@ function FetchLeaveRequestList() {
                 data: data
             },
             dataType: "json",
-            //processing: true,
+            processing: true,
             //serverSide: true,
             complete: function (xhr) {
                 var url = new URL(window.location.href);
@@ -34,7 +37,7 @@ function FetchLeaveRequestList() {
             }
         },
         "columns": [
-            { "title": "<input type='checkbox' id='checkAll'>", "data": null, "orderable": false },
+            { "title": "<input type='checkbox' id='checkAllLRList' class='checkAllLRList'>", "data": null, "orderable": false },
             {
                 "title": "LR-Number",
                 "data": "leaveRequestNo", "orderable": false
@@ -82,8 +85,7 @@ function FetchLeaveRequestList() {
 
                     return badge;
                 }
-            }
-            ,
+            },
             {
                 "title": "Action",
                 "data": "id", "orderable": false,
@@ -103,7 +105,7 @@ function FetchLeaveRequestList() {
                 }
             }
         ],
-        dom: 't',
+        //dom: 't',
         columnDefs: [
 
             {
@@ -113,7 +115,14 @@ function FetchLeaveRequestList() {
                 width: "5%", // Adjust width
                 "className": "text-center",
                 render: function (data, type, row) {
-                    return '<input type="checkbox" class="row-checkbox" value="' + row.id + '">';
+
+                    if (row.status == 1004) {
+                        return '<input type="checkbox" class="lr-list-row-checkbox" value="' + row.id + '">';
+                    }
+                    else {
+                        return '';
+
+                    }
                 }
             },
             {
@@ -169,7 +178,7 @@ function FetchLeaveRequestList() {
     });
 }
 
-function OverTimeDOM() {
+function LeaveDOM() {
     $('#leave-table').on('click', '.editlr', function () {
         //loadModal('/Leave/LeaveFiling', '#defaultmodal', '<i class="fa-solid fa-business-time"></i> New Leave ', 'l', false);
         //alert('Hello');
@@ -180,3 +189,34 @@ function OverTimeDOM() {
     //});
 }
 
+function viewRejectedLR() {
+    var statusLabel = document.getElementById('plrStatusLabel');
+    if (plrStatusFilter == 0) {
+        plrStatusFilter = 1;
+        showodcloading();
+        setTimeout(function () {
+            initializeLeaveDataTable();
+            hideodcloading();
+            statusLabel.innerHTML = "Pending"
+        }, 1000); // Delay execution by 2 seconds (2000 milliseconds)
+    }
+    else {
+        plrStatusFilter = 0;
+        showodcloading();
+        setTimeout(function () {
+            initializeLeaveDataTable();
+            hideodcloading();
+            statusLabel.innerHTML = "Rejected"
+        }, 1000); // Delay execution by 2 seconds (2000 milliseconds)
+    }
+}
+function downloadLeaveTemplate() {
+    location.replace('../Leave/DownloadHeader');
+}
+
+$('#plr-datefrom').on('change', function () {
+    initializeLeaveDataTable();
+});
+$('#plr-dateto').on('change', function () {
+    initializeLeaveDataTable();
+});
