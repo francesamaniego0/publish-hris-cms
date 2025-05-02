@@ -117,6 +117,7 @@ function delete_item_timelogs() {
     var mtltimeout = localStorage.getItem('timeout');
     var manualtask = localStorage.getItem('task');
     var mtlremarks = localStorage.getItem('remarks');
+    var lunch = localStorage.getItem('lunch');
 
     var data = {};
     data.id = mtlid;
@@ -128,6 +129,7 @@ function delete_item_timelogs() {
     data.TaskId = manualtask;
     data.deleteFlag = 0;
     data.Remarks = mtlremarks;
+    data.TotalLunchHours = lunch;
     //console.log(data);
     $.ajax({
         url: '/TimeLogs/ManualLogs',
