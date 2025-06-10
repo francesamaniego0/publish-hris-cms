@@ -1363,3 +1363,24 @@ $('#ts-quick-select-date').on('change', function () {
         document.getElementById('datefrom').value = formatOTFromDate(ottoDate);
     }
 });
+
+//Manager Timelogs POV
+function mtsActionFunction() {
+    actionmts.style.display = "flex";
+    pencilmts.style.display = "none";
+}
+$("#action-navbar-mts").click(function () {
+
+    actionmts.style.display = "none";
+    pencilmts.style.display = "block";
+
+});
+
+/*** MTS Show Date Range*/
+function showSelectDateRangeMTS() {
+    document.getElementById('mts-select-date-container').style.display = "block";
+}/*** MTS Close Date Range*/
+$("#close-mts-select-date").click(function () {
+
+    document.getElementById('mts-select-date-container').style.display = "none";
+});
