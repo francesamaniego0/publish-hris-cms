@@ -1384,3 +1384,16 @@ $("#close-mts-select-date").click(function () {
 
     document.getElementById('mts-select-date-container').style.display = "none";
 });
+var isFilterShow = 0;
+/*** MTS filter btn*/
+$("#mts-filter").click(function () {
+    if (isFilterShow == 0) {
+        isFilterShow = 1
+        document.getElementById('mts-filter-container').style.display = "flex";
+    }
+    else {
+        isFilterShow = 0; document.getElementById('mts-filter-container').style.display = "none";
+    }
+   
+});
+
